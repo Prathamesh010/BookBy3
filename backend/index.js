@@ -18,6 +18,9 @@ mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTop
 app.use(express.json());
 
 // routes
+app.get('/api', (req, res) => {
+    res.send('Api is running!');
+});
 
 // 404 route
 app.use((req, res, next) => {
