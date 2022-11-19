@@ -2,8 +2,8 @@ require('dotenv').config();
 
 const express = require('express');
 const mongoose = require('mongoose');
+const router = require('./routes');
 const debug = require('debug')('backend:main');
-
 
 const app = express();
 
@@ -16,11 +16,10 @@ mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTop
 
 // middleware
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 // routes
-app.get('/api', (req, res) => {
-    res.send('Api is running!');
-});
+app.use('/api', router)
 
 // 404 route
 app.use((req, res, next) => {
