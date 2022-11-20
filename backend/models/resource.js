@@ -21,4 +21,4 @@ const resourceSchema = new moongose.Schema({
     timestamps: true
 })
 
-const Resource = moongose.model('Resource', resourceSchema)
+module.exports = moongose.model('Resource', resourceSchema)
