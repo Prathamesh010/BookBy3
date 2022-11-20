@@ -2,6 +2,8 @@ require('dotenv').config();
 
 const express = require('express');
 const mongoose = require('mongoose');
+const cors = require('cors');
+
 const router = require('./routes');
 const debug = require('debug')('backend:main');
 
@@ -17,6 +19,10 @@ mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTop
 // middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cors({
+    origin: '*',
+}));
+
 
 // routes
 app.use('/api', router)
