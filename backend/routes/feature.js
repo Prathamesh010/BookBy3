@@ -1,11 +1,12 @@
+const isAuth = require('../middlewares/auth');
 const { getBook, getBooks, createBook, deleteBook, updateBook } = require('../controllers/books');
 
 const router = require('express').Router();
 
 router.get('/books', getBooks);
 router.get('/books/:id', getBook);
-router.post('/books', createBook);
-router.put('/books/:id', updateBook);
-router.delete('/books/:id', deleteBook);
+router.post('/books', isAuth, createBook);
+router.put('/books/:id', isAuth, updateBook);
+router.delete('/books/:id', isAuth, deleteBook);
 
 module.exports = router;

@@ -1,4 +1,4 @@
-const { login, register } = require('../controllers/auth');
+const { login, register, refreshToken } = require('../controllers/auth');
 
 const router = require('express').Router();
 
@@ -9,5 +9,7 @@ router.get('/', (req, res) => {
 router.post('/login', login);
 
 router.post('/register', register);
+
+router.post('/refreshToken', refreshToken);
 
 module.exports = router;
