@@ -86,7 +86,7 @@ module.exports.refreshToken = async (req, res) => {
 
 const provideToken = (user) => {
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
-        expiresIn: 900 // 15 mins
+        expiresIn: 86400 // 24 hours
     });
 
     const refreshToken = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
@@ -94,7 +94,7 @@ const provideToken = (user) => {
     });
 
     return {
-        token,
-        refreshToken
+        token: `Bearer ${token}`,
+        refreshToken: `Bearer ${refreshToken}`
     }
 }

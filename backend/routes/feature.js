@@ -1,4 +1,4 @@
-const isAuth = require('../middlewares/auth');
+const isAuth = require('../middlewares/isAuth');
 const { getBook, getBooks, createBook, deleteBook, updateBook } = require('../controllers/books');
 
 const router = require('express').Router();
