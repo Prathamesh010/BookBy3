@@ -14,8 +14,10 @@
       </div>
     </div>
     <div class="navbar__buttons">
-      <button class="navbar__buttons--login">Login</button>
-      <button class="navbar__buttons--signup">Sign Up</button>
+      <button class="navbar__buttons--login"><a href="/login">Login</a></button>
+      <button class="navbar__buttons--signup">
+        <a href="/register">Sign Up</a>
+      </button>
     </div>
   </div>
 </template>
@@ -28,6 +30,8 @@ export default {
 
 <style>
 .navbar {
+  position: absolute;
+  width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -102,6 +106,16 @@ export default {
   font-size: 1.2rem;
   font-weight: 500;
   cursor: pointer;
+}
+
+.navbar__buttons--login a {
+  color: #fff;
+  text-decoration: none;
+}
+
+.navbar__buttons--signup a {
+  color: #131418;
+  text-decoration: none;
 }
 
 .navbar__buttons--signup:hover {

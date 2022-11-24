@@ -1,4 +1,4 @@
-import { login, register } from '@/services/auth.service'
+import axiosInstance from '@/apiClient'
 import axios from 'axios'
 
 export default {
@@ -32,7 +32,7 @@ export default {
     actions: {
         login({ commit }, payload) {
             commit('setLoading', { loading: true })
-            login(payload.email, payload.password)
+            return axiosInstance.post('/auth/login', payload)
                 .then(response => {
                     commit('setLoading', { loading: false })
                     commit('setToken', { token: response.data.token })
@@ -47,18 +47,22 @@ export default {
         },
         register({ commit }, payload) {
             commit('setLoading', { loading: true })
-            register(payload)
-                .then(response => {
-                    commit('setLoading', { loading: false })
-                    commit('setToken', { token: response.data.token })
-                    commit('setUser', { user: response.data.user })
-                    commit('setRefreshToken', { refreshToken: response.data.refreshToken })
-                    localStorage.setItem('user-token', response.data.token)
-                })
-                .catch(error => {
-                    commit('setLoading', { loading: false })
-                    commit('setError', { error: error.message })
-                })
+            return new Promise((resolve, reject) => {
+                axiosInstance.post(`/auth/register`, payload)
+                    .then(response => {
+                        commit('setLoading', { loading: false })
+                        commit('setToken', { token: response.data.token })
+                        commit('setUser', { user: response.data.user })
+                        commit('setRefreshToken', { refreshToken: response.data.refreshToken })
+                        localStorage.setItem('user-token', response.data.token)
+                        resolve()
+                    })
+                    .catch(error => {
+                        commit('setLoading', { loading: false })
+                        commit('setError', { error: error.message })
+                        reject(error)
+                    })
+            })
         },
         logout({ commit }) {
             commit('clearToken')
