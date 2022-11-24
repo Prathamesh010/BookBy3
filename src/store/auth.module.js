@@ -10,14 +10,14 @@ export default {
     mutations: {
         setToken(state, payload) {
             state.token = payload.token
-            localStorage.setItem('user-token', payload.token)
+            localStorage.setItem('token', payload.token)
         },
         setUser(state, payload) {
             state.user = payload.user
         },
         setRefreshToken(state, payload) {
             state.refreshToken = payload.refreshToken
-            localStorage.setItem('user-refresh-token', payload.refreshToken)
+            localStorage.setItem('refresh-token', payload.refreshToken)
         },
         clearToken(state) {
             state.token = ''

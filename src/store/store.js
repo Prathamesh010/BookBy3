@@ -8,6 +8,7 @@ export default new Vuex.Store({
     state: {
         error: null,
         loading: false,
+        isLoggedIn: localStorage.getItem('token') ? true : false,
     },
     mutations: {
         setError(state, payload) {

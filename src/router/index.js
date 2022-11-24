@@ -1,3 +1,4 @@
+import store from '@/store/store'
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
@@ -31,5 +32,21 @@ const router = new VueRouter({
   base: process.env.BASE_URL,
   routes
 })
+
+router.beforeEach((to, from, next) => {
+  const publicPages = ['/login', '/register'];
+  const authRequired = !publicPages.includes(to.path);
+  const isAuth = store.state.isLoggedIn;
+
+  if (authRequired && !isAuth) {
+    return next('/login');
+  }
+
+  if ((to.path === '/login' || to.path === '/register') && isAuth) {
+    return next('/');
+  }
+
+  next();
+});
 
 export default router
