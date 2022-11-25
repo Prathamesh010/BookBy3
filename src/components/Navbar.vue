@@ -13,11 +13,20 @@
         <a href="#">Contact</a>
       </div>
     </div>
-    <div class="navbar__buttons">
-      <button class="navbar__buttons--login"><a href="/login">Login</a></button>
-      <button class="navbar__buttons--signup">
-        <a href="/register">Sign Up</a>
-      </button>
+    <!-- conditional render avatar or buttons -->
+    <div v-if="!$store.state.isLoggedIn">
+      <div class="navbar__buttons">
+        <button class="navbar__buttons--login">
+          <a href="/login">Login</a>
+        </button>
+        <button class="navbar__buttons--signup">
+          <a href="/register">Sign Up</a>
+        </button>
+      </div>
+    </div>
+    <div v-else class="navbar__avatar">
+      <Avatar />
+      <button class="navbar__avatar--logout" @click="logout">Logout</button>
     </div>
   </div>
 </template>
@@ -25,6 +34,15 @@
 <script>
 export default {
   name: 'Navbar',
+  components: {
+    Avatar: () => import('./common/Avatar.vue'),
+  },
+  methods: {
+    logout() {
+      console.log('logout');
+      this.$store.dispatch('logout');
+    },
+  },
 };
 </script>
 
@@ -121,6 +139,21 @@ export default {
 .navbar__buttons--signup:hover {
   background-color: #f50057;
   color: #fff;
+}
+
+.navbar__avatar {
+  display: flex;
+  align-items: center;
+}
+
+.navbar__avatar--logout {
+  margin-left: 2rem;
+  border: none;
+  border-radius: 0.2rem;
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
 }
 
 @media screen and (max-width: 768px) {

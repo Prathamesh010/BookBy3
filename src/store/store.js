@@ -22,6 +22,9 @@ export default new Vuex.Store({
         },
         clearLoading(state) {
             state.loading = false
+        },
+        setLoggedIn(state, payload) {
+            state.isLoggedIn = payload.isLoggedIn
         }
     },
     modules: {

@@ -19,14 +19,12 @@ export default {
             state.refreshToken = payload.refreshToken
             localStorage.setItem('refresh-token', payload.refreshToken)
         },
-        clearToken(state) {
+        logout(state) {
             state.token = ''
-        },
-        clearUser(state) {
-            state.user = {}
-        },
-        clearRefreshToken(state) {
             state.refreshToken = ''
+            state.user = {}
+            localStorage.removeItem('token')
+            localStorage.removeItem('refresh-token')
         }
     },
     actions: {
@@ -39,6 +37,7 @@ export default {
                         commit('setToken', { token: response.data.token })
                         commit('setUser', { user: response.data.user })
                         commit('setRefreshToken', { refreshToken: response.data.refreshToken })
+                        commit('setLoggedIn', { isLoggedIn: true })
                         localStorage.setItem('user-token', response.data.token)
                         resolve()
                     })
@@ -58,6 +57,7 @@ export default {
                         commit('setToken', { token: response.data.token })
                         commit('setUser', { user: response.data.user })
                         commit('setRefreshToken', { refreshToken: response.data.refreshToken })
+                        commit('setLoggedIn', { isLoggedIn: true })
                         localStorage.setItem('user-token', response.data.token)
                         resolve()
                     })
@@ -69,11 +69,8 @@ export default {
             })
         },
         logout({ commit }) {
-            commit('clearToken')
-            commit('clearUser')
-            commit('clearRefreshToken')
-            localStorage.removeItem('user-token')
-            localStorage.removeItem('user-refresh-token')
+            commit('logout')
+            commit('setLoggedIn', { isLoggedIn: false })
         },
         refreshToken() {
             return new Promise((resolve, reject) => {
