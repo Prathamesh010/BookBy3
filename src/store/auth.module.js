@@ -32,18 +32,22 @@ export default {
     actions: {
         login({ commit }, payload) {
             commit('setLoading', { loading: true })
-            return axiosInstance.post('/auth/login', payload)
-                .then(response => {
-                    commit('setLoading', { loading: false })
-                    commit('setToken', { token: response.data.token })
-                    commit('setUser', { user: response.data.user })
-                    commit('setRefreshToken', { refreshToken: response.data.refreshToken })
-                    localStorage.setItem('user-token', response.data.token)
-                })
-                .catch(error => {
-                    commit('setLoading', { loading: false })
-                    commit('setError', { error: error.message })
-                })
+            return new Promise((resolve, reject) => {
+                axiosInstance.post('/auth/login', payload)
+                    .then(response => {
+                        commit('setLoading', { loading: false })
+                        commit('setToken', { token: response.data.token })
+                        commit('setUser', { user: response.data.user })
+                        commit('setRefreshToken', { refreshToken: response.data.refreshToken })
+                        localStorage.setItem('user-token', response.data.token)
+                        resolve()
+                    })
+                    .catch(error => {
+                        commit('setLoading', { loading: false })
+                        commit('setError', { error: error.message })
+                        reject(error)
+                    })
+            })
         },
         register({ commit }, payload) {
             commit('setLoading', { loading: true })
