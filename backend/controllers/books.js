@@ -27,7 +27,7 @@ module.exports = {
     createBook: async (req, res) => {
         const book = new Book({
             title: req.body.title,
-            user: req.body.userId,
+            user: req.userId,
             price: req.body.price,
             description: req.body.description,
             image: req.body.image,

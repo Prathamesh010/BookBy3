@@ -15,6 +15,7 @@ const isAuth = (req, res, next) => {
         if (!decoded) {
             return res.status(401).json({ message: 'Invalid token' });
         }
+        res.userId = decoded.userId;
     } catch (err) {
         return res.status(401).json({ message: 'Invalid token' });
     }
