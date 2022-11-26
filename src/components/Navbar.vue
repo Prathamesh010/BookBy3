@@ -6,7 +6,7 @@
       </div>
       <div class="navbar__links">
         <a href="/">Home</a>
-        <a href="#">BOOK/3</a>
+        <a href="/books">BOOK/3</a>
         <a href="#">Resources</a>
         <a href="#">Syllabus</a>
         <a href="/about">About</a>
@@ -35,7 +35,7 @@
 export default {
   name: 'Navbar',
   components: {
-    Avatar: () => import('./common/Avatar.vue'),
+    Avatar: () => import('./Avatar.vue'),
   },
   methods: {
     logout() {
