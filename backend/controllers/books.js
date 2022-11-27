@@ -31,7 +31,8 @@ module.exports = {
             price: req.body.price,
             description: req.body.description,
             image: req.body.image,
-            category: req.body.category
+            category: req.body.category,
+            contact: req.body.contact
         });
         book.save((err, doc) => {
             if (err) {

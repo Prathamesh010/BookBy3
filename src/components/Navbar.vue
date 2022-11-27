@@ -80,7 +80,7 @@ export default {
 
 .navbar__links a {
   margin: 0 1.5rem;
-  color: #fff;
+  color: #fff !important;
   text-decoration: none;
   font-size: 1.2rem;
   font-weight: 500;
@@ -127,12 +127,12 @@ export default {
 }
 
 .navbar__buttons--login a {
-  color: #fff;
+  color: #fff !important;
   text-decoration: none;
 }
 
 .navbar__buttons--signup a {
-  color: #131418;
+  color: #131418 !important;
   text-decoration: none;
 }
 
