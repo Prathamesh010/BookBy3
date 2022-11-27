@@ -11,9 +11,13 @@
           Add Book
         </button>
       </div>
-      <div v-if="books.length" class="book__grid">
-        <BookCard v-for="book in books" :key="book.id" :book="book" />
-      </div>
+      <v-container v-if="books.length > 0">
+        <v-layout row wrap>
+          <v-flex xs12 sm6 md4 lg3 v-for="book in books" :key="book.id">
+            <BookCard :book="book" />
+          </v-flex>
+        </v-layout>
+      </v-container>
       <div v-else class="book__empty">No books available</div>
     </div>
     <AddBookForm
