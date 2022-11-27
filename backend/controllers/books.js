@@ -26,13 +26,8 @@ module.exports = {
     },
     createBook: async (req, res) => {
         const book = new Book({
-            title: req.body.title,
-            user: req.userId,
-            price: req.body.price,
-            description: req.body.description,
-            image: req.body.image,
-            category: req.body.category,
-            contact: req.body.contact
+            ...req.body,
+            user: req.userId
         });
         book.save((err, doc) => {
             if (err) {
