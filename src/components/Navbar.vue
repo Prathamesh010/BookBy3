@@ -7,7 +7,7 @@
       <div class="navbar__links">
         <a href="/">Home</a>
         <a href="/books">BOOK/3</a>
-        <a href="#">Resources</a>
+        <a href="/resources">Resources</a>
         <a href="#">Syllabus</a>
       </div>
     </div>
