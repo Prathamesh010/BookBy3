@@ -37,11 +37,12 @@ export default {
                         commit('setToken', { token: response.data.token })
                         commit('setRefreshToken', { refreshToken: response.data.refreshToken })
                         commit('setLoggedIn', { isLoggedIn: true })
+                        commit('flashSuccess', 'Logged in successfully!')
                         resolve()
                     })
                     .catch(error => {
                         commit('loading', { loading: false })
-                        commit('setError', { error: error.message })
+                        commit('flashError', 'Something went wrong :/')
                         reject(error)
                     })
             })
@@ -60,7 +61,6 @@ export default {
                     })
                     .catch(error => {
                         commit('loading', { loading: false })
-                        commit('setError', { error: error.message })
                         reject(error)
                     })
             })

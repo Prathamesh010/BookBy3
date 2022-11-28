@@ -6,18 +6,16 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
     state: {
-        error: null,
         loading: false,
         isLoggedIn: localStorage.getItem('token') ? true : false,
         formDialog: false,
+        flash: {
+            message: null,
+            type: null,
+            show: false
+        },
     },
     mutations: {
-        setError(state, payload) {
-            state.error = payload.error
-        },
-        clearError(state) {
-            state.error = null
-        },
         loading(state, payload) {
             state.loading = payload
         },
@@ -26,6 +24,23 @@ export default new Vuex.Store({
         },
         setFormDialog(state, payload) {
             state.formDialog = payload
+        },
+        flashSuccess(state, payload) {
+            state.flash.message = payload ? payload : 'Success!'
+            state.flash.type = 'success'
+            state.flash.show = true
+        },
+        flashError(state, payload) {
+            state.flash.message = payload ? payload : 'Error :/'
+            state.flash.type = 'error'
+            state.flash.show = true
+        },
+        clearFlash(state) {
+            state.flash = {
+                message: null,
+                type: null,
+                show: false
+            }
         }
     },
     modules: {
