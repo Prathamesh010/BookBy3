@@ -82,6 +82,19 @@ module.exports.refreshToken = async (req, res) => {
     }
 };
 
+module.exports.me = async (req, res) => {
+    const user = await User.findById(req.userId);
+    if (!user) {
+        return res.status(404).json({ message: 'User not found' });
+    }
+    res.status(200).json({
+        user: {
+            username: user.username,
+            email: user.email
+        }
+    });
+};
+
 const provideToken = (user) => {
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
         expiresIn: 86400 // 24 hours

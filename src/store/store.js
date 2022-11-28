@@ -9,6 +9,7 @@ export default new Vuex.Store({
         error: null,
         loading: false,
         isLoggedIn: localStorage.getItem('token') ? true : false,
+        formDialog: false,
     },
     mutations: {
         setError(state, payload) {
@@ -17,14 +18,14 @@ export default new Vuex.Store({
         clearError(state) {
             state.error = null
         },
-        setLoading(state, payload) {
-            state.loading = payload.loading
-        },
-        clearLoading(state) {
-            state.loading = false
+        loading(state, payload) {
+            state.loading = payload
         },
         setLoggedIn(state, payload) {
             state.isLoggedIn = payload.isLoggedIn
+        },
+        setFormDialog(state, payload) {
+            state.formDialog = payload
         }
     },
     modules: {

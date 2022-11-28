@@ -6,7 +6,7 @@
         <button
           v-if="this.$store.state.isLoggedIn"
           class="book__button"
-          @click="dialog = true"
+          @click="$store.commit('setFormDialog', true)"
         >
           Add Book
         </button>
@@ -20,12 +20,7 @@
       </v-container>
       <div v-else class="book__empty">No books available</div>
     </div>
-    <AddBookForm
-      v-if="dialog"
-      :dialog="dialog"
-      @close="() => (dialog = false)"
-      @addBook="addBook"
-    />
+    <AddBookForm v-if="$store.state.formDialog" @addBook="addBook" />
   </div>
 </template>
 
@@ -42,7 +37,6 @@ export default {
   data() {
     return {
       books: [],
-      dialog: false,
     };
   },
   methods: {
@@ -60,10 +54,12 @@ export default {
       axiosInstance
         .post('/books', payload)
         .then(() => {
+          this.$store.commit('loading', false);
           this.fetchBooks();
-          this.dialog = false;
+          this.$store.commit('setFormDialog', false);
         })
         .catch((error) => {
+          this.$store.commit('loading', false);
           console.log(error);
         });
     },
@@ -83,6 +79,7 @@ export default {
   align-items: center;
   background-color: #131418;
   padding-top: 100px;
+  min-height: 100vh;
 }
 
 .book__header {

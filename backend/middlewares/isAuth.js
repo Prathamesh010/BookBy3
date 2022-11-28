@@ -1,7 +1,6 @@
 const debug = require('debug')('backend:auth');
 const jwt = require('jsonwebtoken');
 const isAuth = (req, res, next) => {
-    debug('isAuth');
     var token = req.headers.authorization;
 
     if (!token) {
@@ -12,10 +11,10 @@ const isAuth = (req, res, next) => {
     token = tokenParts[1];
     try {
         const decoded = jwt.verify(token, process.env.JWT_SECRET)
-        if (!decoded) {
+        if (!decoded)
             return res.status(401).json({ message: 'Invalid token' });
-        }
-        res.userId = decoded.userId;
+
+        req.userId = decoded.id;
     } catch (err) {
         return res.status(401).json({ message: 'Invalid token' });
     }

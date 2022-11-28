@@ -1,31 +1,29 @@
 <template>
-  <div>
-    <div class="hero__container">
-      <div class="right">
-        <v-responsive>
-          <v-img
-            src="@/assets/reading.svg"
-            alt="welcome"
-            max-height="500px"
-            max-width="500px"
-            class="mx-auto home__image"
-          ></v-img>
-        </v-responsive>
+  <div class="hero__container">
+    <div class="right">
+      <v-responsive>
+        <v-img
+          src="@/assets/reading.svg"
+          alt="welcome"
+          max-height="500px"
+          max-width="500px"
+          class="mx-auto home__image"
+        ></v-img>
+      </v-responsive>
+    </div>
+    <div class="left">
+      <!-- vertically and horizontally center -->
+      <div class="main__heading">Book / 3</div>
+      <div class="sub__heading">
+        One platform for all your books at one thrid of the price
       </div>
-      <div class="left">
-        <!-- vertically and horizontally center -->
-        <div class="main__heading">Book / 3</div>
-        <div class="sub__heading">
-          One platform for all your books at one thrid of the price
-        </div>
-        <div class="buttons">
-          <button class="btn btn__primary">Explore</button>
-        </div>
+      <div class="buttons">
+        <button class="btn btn__primary">Explore</button>
       </div>
-      <!-- a scroll down arrow -->
-      <div class="scroll__down">
-        <v-icon color="white">mdi-chevron-down</v-icon>
-      </div>
+    </div>
+    <!-- a scroll down arrow -->
+    <div class="scroll__down">
+      <v-icon color="white">mdi-chevron-down</v-icon>
     </div>
   </div>
 </template>

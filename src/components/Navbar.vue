@@ -9,8 +9,6 @@
         <a href="/books">BOOK/3</a>
         <a href="#">Resources</a>
         <a href="#">Syllabus</a>
-        <a href="/about">About</a>
-        <a href="#">Contact</a>
       </div>
     </div>
     <!-- conditional render avatar or buttons -->
@@ -26,7 +24,6 @@
     </div>
     <div v-else class="navbar__avatar">
       <Avatar />
-      <button class="navbar__avatar--logout" @click="logout">Logout</button>
     </div>
   </div>
 </template>
@@ -36,12 +33,6 @@ export default {
   name: 'Navbar',
   components: {
     Avatar: () => import('./Avatar.vue'),
-  },
-  methods: {
-    logout() {
-      console.log('logout');
-      this.$store.dispatch('logout');
-    },
   },
 };
 </script>

@@ -1,33 +1,66 @@
 <template>
   <!-- profile avatar -->
-  <div class="avatar">
-    <img :src="avatar" alt="avatar" />
-  </div>
+  <v-menu bottom min-width="200px" rounded offset-y>
+    <template v-slot:activator="{ on }">
+      <v-btn icon x-large v-on="on">
+        <v-avatar color="brown" size="48">
+          <span class="white--text text-h5">{{ initials }}</span>
+        </v-avatar>
+      </v-btn>
+    </template>
+    <v-card>
+      <v-list-item-content class="justify-center">
+        <div class="mx-auto text-center">
+          <v-avatar color="brown">
+            <span class="white--text text-h5">{{ initials }}</span>
+          </v-avatar>
+          <h3>{{ user.username }}</h3>
+          <p class="text-caption mt-1">
+            {{ user.email }}
+          </p>
+          <v-divider class="my-3"></v-divider>
+          <v-btn depressed rounded text @click="$router.push('/profile')">
+            Profile
+          </v-btn>
+          <v-divider class="my-3"></v-divider>
+          <v-btn depressed rounded text @click="logout"> Logout </v-btn>
+        </div>
+      </v-list-item-content>
+    </v-card>
+  </v-menu>
 </template>
 
 <script>
+import axiosInstance from '@/apiClient';
+
 export default {
-  props: {
-    avatar: {
-      type: String,
-      default: 'https://i.imgur.com/8Q1Jz8m.png',
+  data() {
+    return {
+      user: {
+        username: '',
+        email: '',
+      },
+      initials: '',
+    };
+  },
+  methods: {
+    getUser() {
+      axiosInstance
+        .get('/auth/me')
+        .then((response) => {
+          this.user = response.data.user;
+          this.initials = this.user.username.charAt(0).toUpperCase();
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     },
+    logout() {
+      this.$store.dispatch('logout');
+    },
+  },
+  mounted() {
+    this.getUser();
   },
 };
 </script>
-
-<style>
-.avatar {
-  width: 3rem;
-  height: 3rem;
-  border-radius: 50%;
-  overflow: hidden;
-  margin-left: 1rem;
-}
-
-.avatar img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-</style>

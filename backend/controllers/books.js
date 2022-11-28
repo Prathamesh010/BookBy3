@@ -41,11 +41,7 @@ module.exports = {
     },
     updateBook: async (req, res) => {
         Book.findByIdAndUpdate(req.params.id, {
-            title: req.body.title,
-            price: req.body.price,
-            description: req.body.description,
-            image: req.body.image,
-            category: req.body.category
+            ...req.body
         }, { new: true }, (err, doc) => {
             if (err) {
                 res.status(500).json({
@@ -73,6 +69,17 @@ module.exports = {
             res.status(200).json({
                 message: 'Book deleted successfully'
             });
+        });
+    },
+    myBooks: async (req, res) => {
+        Book.find({ user: req.userId }, (err, doc) => {
+            if (err) {
+                res.status(500).json({
+                    message: err.message
+                });
+                return;
+            }
+            res.status(200).json(doc);
         });
     }
 }

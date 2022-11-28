@@ -1,5 +1,5 @@
 <template>
-  <v-dialog v-model="dialogValue" max-width="500px">
+  <v-dialog v-model="$store.state.formDialog" max-width="500px">
     <v-card>
       <v-card-title>
         <span class="headline">Add a new book</span>
@@ -67,12 +67,23 @@
             v-model="image"
             outlined
             dense
-            :rules="rules"
+            :rules="rulesImage"
             accept="image/jpeg, image/png"
           ></v-file-input>
           <v-col class="text-right">
-            <v-btn color="white" @click="$emit('close')">Cancel</v-btn>
-            <v-btn color="red" @click="submit" class="ml-3">Add</v-btn>
+            <v-btn color="white" @click="$store.commit('setFormDialog', false)"
+              >Cancel</v-btn
+            >
+            <v-btn color="red" @click="submit" class="ml-3">
+              <!-- show a loading progress -->
+              <v-progress-circular
+                v-if="$store.state.loading"
+                indeterminate
+                size="20"
+                color="white"
+              ></v-progress-circular>
+              <span v-else>Add</span>
+            </v-btn>
           </v-col>
         </v-form>
       </v-card-text>
@@ -84,51 +95,77 @@
 import imageUploadService from '@/services/imageUploadService';
 export default {
   props: {
-    dialog: {
-      type: Boolean,
-      default: false,
-    },
     close: {
       type: Function,
       default: () => {},
     },
+    isEdit: {
+      type: Boolean,
+      default: false,
+    },
+    book: {
+      type: Object,
+      default: () => {},
+    },
   },
   computed: {
-    dialogValue: {
+    rulesImage: {
       get() {
-        return this.dialog;
-      },
-      set(value) {
-        this.$emit('update:dialog', value);
+        return this.isEdit ? [] : [(v) => !!v || 'Field is required'];
       },
     },
   },
   data() {
     return {
+      image: null,
+      rules: [(v) => !!v || 'Field is required'],
       title: '',
       author: '',
       description: '',
       price: '',
       category: '',
-      image: null,
       contact: '',
-      rules: [(value) => !!value || 'Required.'],
     };
   },
   methods: {
     async submit() {
       if (this.$refs.form.validate()) {
-        const url = await imageUploadService(this.image);
-        console.log(url);
-        this.$emit('addBook', {
+        this.$store.commit('loading', true);
+        var url = '';
+        try {
+          if (this.image !== null) url = await imageUploadService(this.image);
+        } catch (e) {
+          this.$store.commit('loading', false);
+          console.log(e);
+        }
+
+        const toEdit = {
           title: this.title,
           author: this.author,
           description: this.description,
           price: this.price,
           category: this.category,
           contact: this.contact,
-          image: url,
-        });
+        };
+
+        if (this.isEdit) {
+          if (url !== '') toEdit.image = url;
+          this.$emit('edit', toEdit);
+        } else {
+          this.$emit('addBook', { ...toEdit, image: url });
+        }
+      }
+    },
+  },
+  watch: {
+    isEdit: function () {
+      if (this.isEdit) {
+        this.title = this.book.title;
+        this.author = this.book.author;
+        this.description = this.book.description;
+        this.price = this.book.price;
+        this.category = this.book.category;
+        this.contact = this.book.contact;
       }
     },
   },

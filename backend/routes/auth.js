@@ -1,4 +1,5 @@
-const { login, register, refreshToken } = require('../controllers/auth');
+const isAuth = require('../middlewares/isAuth');
+const { login, register, refreshToken, me } = require('../controllers/auth');
 
 const router = require('express').Router();
 
@@ -11,5 +12,7 @@ router.post('/login', login);
 router.post('/register', register);
 
 router.post('/refreshToken', refreshToken);
+
+router.get('/me', isAuth, me);
 
 module.exports = router;
