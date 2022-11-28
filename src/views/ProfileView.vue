@@ -60,7 +60,7 @@ export default {
         email: '',
       },
       books: [],
-      resources: [],
+      syllabus: [],
       isEdit: false,
       book: {},
     };

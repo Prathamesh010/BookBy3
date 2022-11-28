@@ -8,7 +8,7 @@
         <a href="/">Home</a>
         <a href="/books">BOOK/3</a>
         <a href="/resources">Resources</a>
-        <a href="#">Syllabus</a>
+        <a href="/syllabus">Syllabus</a>
       </div>
     </div>
     <!-- conditional render avatar or buttons -->
