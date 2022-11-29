@@ -7,11 +7,6 @@
       </div>
       <div class="login__container__body">
         <form class="login__container__body__form" @submit.prevent="login">
-          <div class="login__container__body__form__error" v-if="error">
-            <p class="login__container__body__form__error__message">
-              {{ error }}
-            </p>
-          </div>
           <div class="login__container__body__form__group">
             <label
               class="login__container__body__form__group__label"
@@ -79,7 +74,10 @@ export default {
   },
   methods: {
     login() {
-      if (!this.validate()) return;
+      if (!this.validate()) {
+        this.$store.commit('flashError', this.error);
+        return;
+      }
 
       this.$store
         .dispatch('login', {
@@ -88,9 +86,6 @@ export default {
         })
         .then(() => {
           this.$router.push('/');
-        })
-        .catch((error) => {
-          this.error = error.message;
         });
     },
     validate() {

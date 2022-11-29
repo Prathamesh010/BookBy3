@@ -13,7 +13,11 @@
             </v-avatar>
           </v-col>
           <v-col cols="12" md="8">
-            <h1 class="white--text">{{ user.username }}</h1>
+            <h1 class="white--text">
+              {{
+                user.username.charAt(0).toUpperCase() + user.username.slice(1)
+              }}
+            </h1>
             <!-- email -->
             <h3 class="white--text">Email: {{ user.email }}</h3>
           </v-col>

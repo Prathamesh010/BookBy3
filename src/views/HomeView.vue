@@ -24,6 +24,7 @@
                 </v-btn>
               </v-col>
               <v-col cols="12" md="6" xl="4" class="hidden-sm-and-down">
+                <v-img src="@/assets/reading.svg" max-width="500px" />
               </v-col>
             </v-row>
           </v-col>

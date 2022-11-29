@@ -16,7 +16,6 @@ module.exports.login = async (req, res) => {
 
     const { token, refreshToken } = provideToken(user);
 
-    debug('User logged in, ', user.username);
     res.status(200).json({
         user: {
             id: user._id,

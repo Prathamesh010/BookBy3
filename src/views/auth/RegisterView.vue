@@ -2,25 +2,16 @@
   <div class="register">
     <!-- two sections -->
     <div class="register__left">
-      <h1 class="register__left__title">Welcome to the community!</h1>
+      <h1 class="register__left__title">Welcome to Book By 3!</h1>
       <p class="register__left__text">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam
-        voluptates, quod, quia, voluptate quae voluptatem quidem quibusdam
-        voluptatum quos natus quas. Quisquam, quae. Quisquam, quae. Quisquam,
-        quae. Quisquam, quae.
+        In this inflating world of books prices, we are here to help you get the
+        best books at the best prices. One thrid of the price of the original
+        book.
       </p>
     </div>
     <div class="register__right">
       <!-- error -->
       <h1 class="register__right__title">Sign Up</h1>
-      <div
-        class="register__right__error"
-        v-bind:style="{ display: error ? 'block' : 'none' }"
-      >
-        <p class="register__right__error__text">
-          {{ error }}
-        </p>
-      </div>
       <form class="register__right__form" @click.prevent>
         <div class="register__right__form__group">
           <label for="username">Username</label>
@@ -63,7 +54,10 @@ export default {
   methods: {
     register() {
       const valid = this.validate();
-      if (!valid) return;
+      if (!valid) {
+        this.$store.commit('flashError', this.error);
+        return;
+      }
 
       this.$store
         .dispatch('register', {
@@ -73,9 +67,6 @@ export default {
         })
         .then(() => {
           this.$router.push('/');
-        })
-        .catch((err) => {
-          this.error = err.response.data.message;
         });
     },
     validate() {

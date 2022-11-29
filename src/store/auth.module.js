@@ -42,7 +42,10 @@ export default {
                     })
                     .catch(error => {
                         commit('loading', { loading: false })
-                        commit('flashError', 'Something went wrong :/')
+                        if (error.response.data.message)
+                            commit('flashError', error.response.data.message)
+                        else
+                            commit('flashError', 'Something went wrong!')
                         reject(error)
                     })
             })
@@ -61,6 +64,10 @@ export default {
                     })
                     .catch(error => {
                         commit('loading', { loading: false })
+                        if (error.response.data.message)
+                            commit('flashError', error.response.data.message)
+                        else
+                            commit('flashError', 'Something went wrong!')
                         reject(error)
                     })
             })
