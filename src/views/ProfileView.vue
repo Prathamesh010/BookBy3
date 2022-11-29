@@ -44,7 +44,36 @@
         </v-container>
       </v-row>
     </v-col>
-    <AddBookForm :isEdit="isEdit" :book="book" @edit="editReq" />
+    <v-col class="px-4 py-8">
+      <v-row class="py-4">
+        <h1 class="white--text text-h4 mx-sm-4 mx-md-6 mx-lg-10">
+          Uploaded Syllabus
+        </h1>
+      </v-row>
+      <v-row>
+        <v-container v-if="syllabuss.length > 0">
+          <v-layout row wrap>
+            <v-flex xs12 sm6 md4 lg3 v-for="item in syllabuss" :key="item.id">
+              <SyllabusCard
+                :syllabus="item"
+                :inProfile="true"
+                @refresh="getSyllabus"
+                @editSyllabus="editSyllabus"
+              />
+            </v-flex>
+          </v-layout>
+        </v-container>
+        <v-container v-else class="text-center">
+          <h2 class="white--text">No Syllabus uploaded yet</h2>
+        </v-container>
+      </v-row>
+    </v-col>
+    <AddBookForm :isEdit="isEdit" :book="book" @edit="bookEditReq" />
+    <AddSyllabusForm
+      :isEdit="isEdit"
+      :syllabus="syllabus"
+      @edit="syllabusEditReq"
+    />
   </v-container>
 </template>
 
@@ -60,14 +89,17 @@ export default {
         email: '',
       },
       books: [],
-      syllabus: [],
+      syllabuss: [],
       isEdit: false,
       book: {},
+      syllabus: {},
     };
   },
   components: {
     BookCard: () => import('@/components/BookCard.vue'),
     AddBookForm: () => import('@/components/AddBookForm.vue'),
+    AddSyllabusForm: () => import('@/components/AddSyllabusForm.vue'),
+    SyllabusCard: () => import('@/components/SyllabusCard.vue'),
   },
   methods: {
     getUser() {
@@ -81,12 +113,17 @@ export default {
         this.books = response.data;
       });
     },
-    editBook({ book }) {
+    getSyllabus() {
+      axiosInstance.get('/syllabus/me').then((response) => {
+        this.syllabuss = response.data;
+      });
+    },
+    editBook(book) {
       this.book = book;
       this.$store.commit('setFormDialog', true);
       this.isEdit = true;
     },
-    editReq(payload) {
+    bookEditReq(payload) {
       axiosInstance
         .put(`/books/${this.book._id}`, payload)
         .then(() => {
@@ -100,10 +137,32 @@ export default {
           console.log(err);
         });
     },
+    editSyllabus(syllabus) {
+      this.syllabus = syllabus;
+      this.$store.commit('setSyllabusDialog', true);
+      this.isEdit = true;
+    },
+    syllabusEditReq(payload) {
+      axiosInstance
+        .put(`/syllabus/${this.syllabus._id}`, payload)
+        .then(() => {
+          this.$store.commit('loading', false);
+          this.$store.commit('setSyllabusDialog', false);
+          this.isEdit = false;
+          this.$store.commit('flashSuccess', 'Syllabus Edited Successfully');
+          this.getSyllabus();
+        })
+        .catch((err) => {
+          this.$store.commit('loading', false);
+          this.$store.commit('flashError', 'Something went wrong');
+          console.log(err);
+        });
+    },
   },
   created() {
     this.getUser();
     this.getBooks();
+    this.getSyllabus();
   },
 };
 </script>

@@ -95,10 +95,6 @@
 import imageUploadService from '@/services/imageUploadService';
 export default {
   props: {
-    close: {
-      type: Function,
-      default: () => {},
-    },
     isEdit: {
       type: Boolean,
       default: false,

@@ -17,16 +17,8 @@
     </v-card-actions>
     <!-- edit and delete button-->
     <v-card-actions v-if="inProfile" class="justify-space-around">
-      <v-btn color="blue" @click="$emit('editBook', { book })">Edit</v-btn>
-      <v-btn color="red" @click="deleteBook">
-        <v-progress-circular
-          v-if="$store.state.loading"
-          indeterminate
-          size="20"
-          color="white"
-        ></v-progress-circular>
-        <span v-else>Delete</span>
-      </v-btn>
+      <v-btn color="blue" @click="$emit('editBook', book)">Edit</v-btn>
+      <v-btn color="red" @click="deleteBook"> Delete </v-btn>
     </v-card-actions>
   </v-card>
 </template>
@@ -52,9 +44,11 @@ export default {
         .delete(`/books/${this.book._id}`)
         .then(() => {
           this.$emit('refresh');
+          this.$store.commit('flashSuccess', 'Syllabus Deleted Successfully');
         })
         .catch((error) => {
           console.log(error);
+          this.$store.commit('flashError', 'Something went wrong');
         });
     },
   },

@@ -9,6 +9,7 @@ export default new Vuex.Store({
         loading: false,
         isLoggedIn: localStorage.getItem('token') ? true : false,
         formDialog: false,
+        syllabusDialog: false,
         flash: {
             message: null,
             type: null,
@@ -24,6 +25,9 @@ export default new Vuex.Store({
         },
         setFormDialog(state, payload) {
             state.formDialog = payload
+        },
+        setSyllabusDialog(state, payload) {
+            state.syllabusDialog = payload
         },
         flashSuccess(state, payload) {
             state.flash.message = payload ? payload : 'Success!'

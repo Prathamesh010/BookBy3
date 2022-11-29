@@ -1,13 +1,13 @@
 <template>
   <div class="syllabus__container">
     <v-container style="margin-top: 100px">
-      <v-row justify="space-between">
+      <v-row justify="space-between" class="px-5">
         <h1 class="white--text">Syllabus</h1>
         <!-- add button at right side-->
         <v-btn
           color="#fff"
           class="black--text"
-          @click="() => $store.commit('setResDialog', true)"
+          @click="() => $store.commit('setSyllabusDialog', true)"
           >Add</v-btn
         >
       </v-row>
@@ -28,6 +28,10 @@
         </v-col>
       </v-row>
     </v-container>
+    <AddSyllabusForm
+      v-if="$store.state.syllabusDialog"
+      @addSyllabus="addSyllabus"
+    />
   </div>
 </template>
 
@@ -37,6 +41,7 @@ export default {
   name: 'SyllabusView',
   components: {
     SyllabusCard: () => import('@/components/SyllabusCard.vue'),
+    AddSyllabusForm: () => import('@/components/AddSyllabusForm.vue'),
   },
   data() {
     return {
@@ -51,6 +56,21 @@ export default {
           this.syllabuss = response.data;
         })
         .catch((error) => {
+          console.log(error);
+        });
+    },
+    addSyllabus(payload) {
+      axiosInstance
+        .post('/syllabus', payload)
+        .then(() => {
+          this.$store.commit('loading', false);
+          this.getSyllabus();
+          this.$store.commit('setSyllabusDialog', false);
+          this.$store.commit('flashSuccess', 'Syllabus Added Successfully');
+        })
+        .catch((error) => {
+          this.$store.commit('loading', false);
+          this.$store.commit('flashError', 'Something went wrong');
           console.log(error);
         });
     },
