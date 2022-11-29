@@ -8,12 +8,35 @@
         class="mx-auto my-2 rounded-lg elevation-5"
       />
     </v-responsive>
-    <v-card-text class="pa-2">
+    <v-card-text class="pa-0">
       <div class="black--text text-h6">{{ book.title }}</div>
       <div class="grey--text">{{ book.author }}</div>
     </v-card-text>
-    <v-card-actions v-if="!inProfile" class="justify-center">
-      <v-btn color="red" block class="mt-2">Buy</v-btn>
+    <!-- chips of category -->
+    <v-card-actions class="px-2 py-0">
+      <v-chip
+        v-for="category in categories"
+        :key="category"
+        class="mx-3"
+        color="red lighten-4"
+        text-color="grey darken-4"
+        small
+        outlined
+      >
+        {{ category }}
+      </v-chip>
+    </v-card-actions>
+
+    <!-- price -->
+    <v-card-actions class="px-6 pt-2 pb-0">
+      <div class="black--text text-h6">Rs.{{ book.price }}</div>
+    </v-card-actions>
+
+    <v-card-actions v-if="!inProfile" class="justify-center pb-4 pt-0">
+      <v-btn color="red" block class="mt-2" flat>
+        <v-icon class="mr-3">mdi-phone</v-icon>
+        {{ book.contact }}
+      </v-btn>
     </v-card-actions>
     <!-- edit and delete button-->
     <v-card-actions v-if="inProfile" class="justify-space-around">
@@ -50,6 +73,12 @@ export default {
           console.log(error);
           this.$store.commit('flashError', 'Something went wrong');
         });
+    },
+  },
+  computed: {
+    categories() {
+      const categories = this.book.category.split(',');
+      return categories.slice(0, 3);
     },
   },
 };
