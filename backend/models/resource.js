@@ -13,6 +13,10 @@ const resourceSchema = new moongose.Schema({
         type: String,
         required: true
     },
+    category: [{
+        type: String,
+        required: true
+    }],
     links: [{
         type: String,
         required: true
