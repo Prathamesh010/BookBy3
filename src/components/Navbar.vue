@@ -1,159 +1,172 @@
 <template>
-  <div class="navbar">
-    <div class="navbar__content">
-      <div class="navbar__logo">
-        <img src="../assets/logo.svg" alt="logo" />
+  <div>
+    <v-navigation-drawer
+      v-model="drawer"
+      app
+      temporary
+      dark
+      src="@/assets/logo.svg"
+    >
+      <v-list>
+        <v-list-item>
+          <v-list-item-avatar>
+            <Avatar v-if="$store.state.isLoggedIn" />
+          </v-list-item-avatar>
+          <v-list-item-content>
+            <v-list-item-title class="title">Book By 3</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list>
+
+      <v-divider />
+      <v-list dense>
+        <v-list-item link @click="$router.push('/')">
+          <v-list-item-icon class="justify-center">
+            <v-icon>mdi-home-outline</v-icon>
+          </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title class="subtitile-1"> Home</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item link @click="$router.push('/books')">
+          <v-list-item-icon class="justify-center">
+            <v-icon>mdi-book-open-page-variant-outline</v-icon>
+          </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title class="subtitile-1">Book/3</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item link @click="$router.push('/resources')">
+          <v-list-item-icon class="justify-center">
+            <v-icon>mdi-information-outline</v-icon>
+          </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title class="subtitile-1">Resources</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item link @click="$router.push('/syllabus')">
+          <v-list-item-icon class="justify-center">
+            <v-icon>mdi-school-outline</v-icon>
+          </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title class="subtitile-1">Syllabus</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item
+          link
+          @click="$router.push('/login')"
+          class="mt-4"
+          v-if="!$store.state.isLoggedIn"
+        >
+          <v-list-item-icon class="justify-center">
+            <v-icon>mdi-account-outline</v-icon>
+          </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title class="subtitile-1">Login</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item
+          link
+          @click="$router.push('/register')"
+          v-if="!$store.state.isLoggedIn"
+        >
+          <v-list-item-icon class="justify-center">
+            <v-icon>mdi-card-account-details-outline</v-icon>
+          </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title class="subtitile-1">Register</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list>
+    </v-navigation-drawer>
+
+    <v-app-bar app class="px-15" :class="{ expand: false }" color="black">
+      <v-toolbar-title>
+        <v-img src="@/assets/logo.svg" max-width="50px" />
+      </v-toolbar-title>
+      <v-spacer />
+      <v-app-bar-nav-icon
+        @click.stop="drawer = !drawer"
+        class="mr-4"
+        v-if="isXs"
+        color="white"
+      />
+      <div v-else>
+        <v-btn text @click="$router.push('/')">
+          <span class="mr-2 white--text">Home</span>
+        </v-btn>
+        <v-btn text @click="$router.push('/books')">
+          <span class="mr-2 white--text">Book/3</span>
+        </v-btn>
+        <v-btn text @click="$router.push('/resources')">
+          <span class="mr-2 white--text">Resources</span>
+        </v-btn>
+        <v-btn text @click="$router.push('/syllabus')">
+          <span class="mr-2 white--text">Syllabus</span>
+        </v-btn>
+        <!-- avatar -->
+        <v-btn
+          v-if="!$store.state.isLoggedIn"
+          rounded
+          outlined
+          text
+          @click="$router.push('/login')"
+        >
+          <span class="mr-2 white--text">LogIn</span>
+        </v-btn>
+        <v-btn
+          v-if="!$store.state.isLoggedIn"
+          rounded
+          outlined
+          text
+          @click="$router.push('/register')"
+          class="ml-2"
+        >
+          <span class="mr-2 white--text">Register</span>
+        </v-btn>
+        <Avatar v-if="$store.state.isLoggedIn" />
       </div>
-      <div class="navbar__links">
-        <a href="/">Home</a>
-        <a href="/books">BOOK/3</a>
-        <a href="/resources">Resources</a>
-        <a href="/syllabus">Syllabus</a>
-      </div>
-    </div>
-    <!-- conditional render avatar or buttons -->
-    <div v-if="!$store.state.isLoggedIn">
-      <div class="navbar__buttons">
-        <button class="navbar__buttons--login">
-          <a href="/login">Login</a>
-        </button>
-        <button class="navbar__buttons--signup">
-          <a href="/register">Sign Up</a>
-        </button>
-      </div>
-    </div>
-    <div v-else class="navbar__avatar">
-      <Avatar />
-    </div>
+    </v-app-bar>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'Navbar',
+  data: () => ({
+    drawer: null,
+    isXs: false,
+    items: [],
+  }),
   components: {
-    Avatar: () => import('./Avatar.vue'),
+    Avatar: () => import('@/components/Avatar.vue'),
+  },
+  methods: {
+    onResize() {
+      this.isXs = window.innerWidth < 850;
+    },
+  },
+  watch: {
+    isXs(value) {
+      if (!value) {
+        if (this.drawer) {
+          this.drawer = false;
+        }
+      }
+    },
+  },
+  mounted() {
+    this.onResize();
+    window.addEventListener('resize', this.onResize, { passive: true });
   },
 };
 </script>
 
-<style>
-.navbar {
-  position: absolute;
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0 2rem;
-  background-color: #131418;
-  height: 5rem;
+<style scoped>
+.v-toolbar {
+  transition: 0.6s;
 }
-
-.navbar__content {
-  display: flex;
-  align-items: center;
-}
-
-.navbar__logo {
-  display: flex;
-  align-items: center;
-}
-
-.navbar__logo img {
-  width: 4rem;
-}
-
-.navbar__links {
-  display: flex;
-  align-items: center;
-  margin-left: 2rem;
-}
-
-.navbar__links a {
-  margin: 0 1.5rem;
-  color: #fff !important;
-  text-decoration: none;
-  font-size: 1.2rem;
-  font-weight: 500;
-}
-
-.navbar__links a:hover {
-  color: #f50057;
-}
-
-.navbar__links a.active {
-  color: #f50057;
-}
-
-.navbar__links a.active:hover {
-  color: #fff;
-}
-
-.navbar__buttons {
-  display: flex;
-  align-items: center;
-}
-
-.navbar__buttons--login {
-  margin-right: 1rem;
-  padding: 0.5rem 1rem;
-  border: none;
-  border-radius: 0.2rem;
-  background-color: #f50057;
-  color: #fff;
-  font-size: 1.2rem;
-  font-weight: 500;
-  cursor: pointer;
-}
-
-.navbar__buttons--signup {
-  padding: 0.5rem 1rem;
-  border: none;
-  border-radius: 0.2rem;
-  background-color: #fff;
-  color: #131418;
-  font-size: 1.2rem;
-  font-weight: 500;
-  cursor: pointer;
-}
-
-.navbar__buttons--login a {
-  color: #fff !important;
-  text-decoration: none;
-}
-
-.navbar__buttons--signup a {
-  color: #131418 !important;
-  text-decoration: none;
-}
-
-.navbar__buttons--signup:hover {
-  background-color: #f50057;
-  color: #fff;
-}
-
-.navbar__avatar {
-  display: flex;
-  align-items: center;
-}
-
-.navbar__avatar--logout {
-  margin-left: 2rem;
-  border: none;
-  border-radius: 0.2rem;
-  color: #fff;
-  font-size: 1rem;
-  font-weight: 500;
-  cursor: pointer;
-}
-
-@media screen and (max-width: 768px) {
-  .navbar {
-    padding: 0 1rem;
-  }
-
-  .navbar__links {
-    display: none;
-  }
+.expand {
+  height: 80px !important;
+  padding-top: 10px;
 }
 </style>
