@@ -68,12 +68,38 @@
         </v-container>
       </v-row>
     </v-col>
+    <v-col class="px-4 py-8">
+      <v-row class="py-4">
+        <h1 class="white--text text-h4 mx-sm-4 mx-md-6 mx-lg-10">
+          Uploaded Resources
+        </h1>
+      </v-row>
+      <v-row>
+        <v-container v-if="resources.length > 0">
+          <v-layout row wrap>
+            <v-flex xs12 sm6 md4 lg3 v-for="item in resources" :key="item._id">
+              <ResourceCard
+                :resource="item"
+                :inProfile="true"
+                @refresh="getResources"
+                @editResource="editResource"
+              />
+            </v-flex>
+          </v-layout>
+        </v-container>
+        <v-container v-else class="text-center">
+          <h2 class="white--text">No Resources uploaded yet</h2>
+        </v-container>
+      </v-row>
+    </v-col>
     <AddBookForm :isEdit="isEdit" :book="book" @edit="bookEditReq" />
     <AddSyllabusForm
       :isEdit="isEdit"
       :syllabus="syllabus"
       @edit="syllabusEditReq"
     />
+    <AddResForm :isEdit="isEdit" :resource="resource" @edit="resourceEditReq" />
+    <ResDetailsDialog v-if="$store.state.resDetailsDialog" />
   </v-container>
 </template>
 
@@ -90,9 +116,11 @@ export default {
       },
       books: [],
       syllabuss: [],
+      resources: [],
       isEdit: false,
       book: {},
       syllabus: {},
+      resource: {},
     };
   },
   components: {
@@ -100,6 +128,9 @@ export default {
     AddBookForm: () => import('@/components/AddBookForm.vue'),
     AddSyllabusForm: () => import('@/components/AddSyllabusForm.vue'),
     SyllabusCard: () => import('@/components/SyllabusCard.vue'),
+    AddResForm: () => import('@/components/AddResForm.vue'),
+    ResourceCard: () => import('@/components/ResourceCard.vue'),
+    ResDetailsDialog: () => import('@/components/ResDetailsDialog.vue'),
   },
   methods: {
     getUser() {
@@ -116,6 +147,11 @@ export default {
     getSyllabus() {
       axiosInstance.get('/syllabus/me').then((response) => {
         this.syllabuss = response.data;
+      });
+    },
+    getResources() {
+      axiosInstance.get('/resources/me').then((response) => {
+        this.resources = response.data;
       });
     },
     editBook(book) {
@@ -158,11 +194,33 @@ export default {
           console.log(err);
         });
     },
+    editResource(resource) {
+      this.resource = resource;
+      this.$store.commit('setResDialog', true);
+      this.isEdit = true;
+    },
+    resourceEditReq(payload) {
+      axiosInstance
+        .put(`/resources/${this.resource._id}`, payload)
+        .then(() => {
+          this.$store.commit('loading', false);
+          this.$store.commit('setResDialog', false);
+          this.isEdit = false;
+          this.$store.commit('flashSuccess', 'Resource Edited Successfully');
+          this.getResources();
+        })
+        .catch((err) => {
+          this.$store.commit('loading', false);
+          this.$store.commit('flashError', 'Something went wrong');
+          console.log(err);
+        });
+    },
   },
   created() {
     this.getUser();
     this.getBooks();
     this.getSyllabus();
+    this.getResources();
   },
 };
 </script>

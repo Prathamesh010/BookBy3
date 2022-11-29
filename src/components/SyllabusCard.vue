@@ -12,7 +12,7 @@
       </v-list-item-content>
 
       <v-list-item-avatar tile size="80" @click="download">
-        <v-icon size="100">mdi-download</v-icon>
+        <v-icon size="100" color="red">mdi-download</v-icon>
       </v-list-item-avatar>
     </v-list-item>
 

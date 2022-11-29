@@ -10,11 +10,14 @@ export default new Vuex.Store({
         isLoggedIn: localStorage.getItem('token') ? true : false,
         formDialog: false,
         syllabusDialog: false,
+        resDialog: false,
         flash: {
             message: null,
             type: null,
             show: false
         },
+        resource: {},
+        resDetailsDialog: false,
     },
     mutations: {
         loading(state, payload) {
@@ -28,6 +31,15 @@ export default new Vuex.Store({
         },
         setSyllabusDialog(state, payload) {
             state.syllabusDialog = payload
+        },
+        setResDialog(state, payload) {
+            state.resDialog = payload
+        },
+        setResDetailsDialog(state, payload) {
+            state.resDetailsDialog = payload
+        },
+        setResource(state, payload) {
+            state.resource = payload
         },
         flashSuccess(state, payload) {
             state.flash.message = payload ? payload : 'Success!'

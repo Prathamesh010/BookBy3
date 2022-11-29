@@ -1,11 +1,11 @@
-const resource = require('../models/resource');
+const Resource = require('../models/resource');
 
 const debug = require('debug')('backend:resourcesController');
 
 module.exports = {
     getResources: async (req, res) => {
         try {
-            const resources = await resource.find(req.query);
+            const resources = await Resource.find(req.query);
             res.status(200).json(resources);
         } catch (error) {
             debug(error);
@@ -14,10 +14,12 @@ module.exports = {
     },
     createResource: async (req, res) => {
         try {
+            req.body.user = req.userId;
             const resource = new Resource(req.body);
             const savedResource = await resource.save();
             res.status(200).json({ resource: savedResource });
         } catch (error) {
+            debug(error);
             res.status(500).json({ message: 'Something went wrong' });
         }
     },
@@ -42,7 +44,7 @@ module.exports = {
     myResources: async (req, res) => {
         try {
             const resources = await Resource.find({ user: req.userId });
-            res.status(200).json({ resources });
+            res.status(200).json(resources);
         } catch (error) {
             res.status(500).json({ message: 'Something went wrong' });
         }
