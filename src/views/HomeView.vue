@@ -122,7 +122,7 @@
         </v-card-text>
 
         <v-card-text class="white--text pt-0">
-          One platform for all your books at one thrid of the price
+          One platform for all your books at one third of the price
         </v-card-text>
 
         <v-divider></v-divider>
