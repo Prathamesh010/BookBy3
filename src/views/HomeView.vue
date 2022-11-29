@@ -45,7 +45,12 @@
           <v-col cols="10">
             <v-row align="center" justify="space-around">
               <v-col cols="12" sm="4" class="text-center">
-                <v-card class="card py-4" shaped :elevation="4">
+                <v-card
+                  class="card py-4"
+                  shaped
+                  :elevation="4"
+                  @click="$router.push('/books')"
+                >
                   <v-img
                     src="@/assets/book.svg"
                     max-width="150px"
@@ -59,7 +64,12 @@
                 </v-card>
               </v-col>
               <v-col cols="12" sm="4" class="text-center">
-                <v-card class="card py-4" shaped :elevation="4">
+                <v-card
+                  class="card py-4"
+                  shaped
+                  :elevation="4"
+                  @click="$router.push('/resources')"
+                >
                   <v-img
                     src="@/assets/resource.svg"
                     max-width="150px"
@@ -73,7 +83,12 @@
                 </v-card>
               </v-col>
               <v-col cols="12" sm="4" class="text-center">
-                <v-card class="card py-4" shaped :elevation="4">
+                <v-card
+                  class="card py-4"
+                  shaped
+                  :elevation="4"
+                  @click="$router.push('/syllabus')"
+                >
                   <v-img
                     src="@/assets/exam.svg"
                     max-width="175px"

@@ -87,9 +87,14 @@
       </v-list>
     </v-navigation-drawer>
 
-    <v-app-bar app class="px-15" :class="{ expand: false }" color="black">
+    <v-app-bar app class="px-6" :class="{ expand: false }" color="black">
       <v-toolbar-title>
-        <v-img src="@/assets/logo.svg" max-width="50px" />
+        <v-img
+          src="@/assets/logo.svg"
+          max-width="50px"
+          @click="$router.push('/')"
+          style="cursor: pointer"
+        ></v-img>
       </v-toolbar-title>
       <v-spacer />
       <v-app-bar-nav-icon
