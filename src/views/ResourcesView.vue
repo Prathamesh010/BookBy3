@@ -1,7 +1,7 @@
 <template>
   <div class="resources__container">
     <v-container style="margin-top: 100px">
-      <v-row justify="space-between px-5">
+      <v-row class="justify-space-between px-5">
         <h1 class="white--text">Resources</h1>
         <v-btn
           color="#fff"
