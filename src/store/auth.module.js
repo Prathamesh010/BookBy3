@@ -29,11 +29,11 @@ export default {
     },
     actions: {
         login({ commit }, payload) {
-            commit('loading', { loading: true })
+            commit('loading', true)
             return new Promise((resolve, reject) => {
                 axiosInstance.post('/auth/login', payload)
                     .then(response => {
-                        commit('loading', { loading: false })
+                        commit('loading', false)
                         commit('setToken', { token: response.data.token })
                         commit('setRefreshToken', { refreshToken: response.data.refreshToken })
                         commit('setLoggedIn', { isLoggedIn: true })
@@ -41,7 +41,7 @@ export default {
                         resolve()
                     })
                     .catch(error => {
-                        commit('loading', { loading: false })
+                        commit('loading', false)
                         if (error.response.data.message)
                             commit('flashError', error.response.data.message)
                         else
@@ -51,11 +51,11 @@ export default {
             })
         },
         register({ commit }, payload) {
-            commit('loading', { loading: true })
+            commit('loading', true)
             return new Promise((resolve, reject) => {
                 axiosInstance.post(`/auth/register`, payload)
                     .then(response => {
-                        commit('loading', { loading: false })
+                        commit('loading', false)
                         commit('setToken', { token: response.data.token })
                         commit('setUser', { user: response.data.user })
                         commit('setRefreshToken', { refreshToken: response.data.refreshToken })
@@ -63,7 +63,7 @@ export default {
                         resolve()
                     })
                     .catch(error => {
-                        commit('loading', { loading: false })
+                        commit('loading', false)
                         if (error.response.data.message)
                             commit('flashError', error.response.data.message)
                         else

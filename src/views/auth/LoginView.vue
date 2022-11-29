@@ -38,7 +38,13 @@
               class="login__container__body__form__group__button"
               type="submit"
             >
-              Login
+              <v-progress-circular
+                indeterminate
+                color="white"
+                size="20"
+                v-if="$store.state.loading"
+              ></v-progress-circular>
+              <span v-else>Login</span>
             </button>
           </div>
         </form>
