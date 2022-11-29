@@ -165,6 +165,7 @@ export default {
   padding: 5px;
   border: 1px solid #ccc;
   border-radius: 5px;
+  color: #fff;
 }
 
 .login__container__body__form__group__button {
