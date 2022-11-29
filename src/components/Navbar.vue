@@ -1,12 +1,6 @@
 <template>
   <div>
-    <v-navigation-drawer
-      v-model="drawer"
-      app
-      temporary
-      dark
-      src="@/assets/logo.svg"
-    >
+    <v-navigation-drawer v-model="drawer" app temporary dark>
       <v-list>
         <v-list-item>
           <v-list-item-avatar>
@@ -77,6 +71,19 @@
             <v-list-item-title class="subtitile-1">Register</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
+        <v-list-item
+          link
+          @click="logout"
+          class="mt-4"
+          v-if="$store.state.isLoggedIn"
+        >
+          <v-list-item-icon class="justify-center">
+            <v-icon>mdi-logout-variant</v-icon>
+          </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title class="subtitile-1">Logout</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
       </v-list>
     </v-navigation-drawer>
 
@@ -143,6 +150,10 @@ export default {
   methods: {
     onResize() {
       this.isXs = window.innerWidth < 850;
+    },
+    logout() {
+      this.$store.dispatch('logout');
+      this.$router.push('/');
     },
   },
   watch: {
