@@ -2,7 +2,7 @@
   <v-container class="mt-10 profile" fluid style="background-color: #000000">
     <v-row
       align="center"
-      class="mt-5 text-center pa-5"
+      class="mt-5 text-center px-3"
       style="background-color: #131418; border-radius: 10px"
     >
       <v-col cols="12" md="6">
@@ -78,22 +78,20 @@
           Uploaded Resources
         </h1>
       </v-row>
-      <v-row>
-        <v-container v-if="resources.length > 0">
-          <v-layout row wrap>
-            <v-flex xs12 sm6 md4 lg3 v-for="item in resources" :key="item._id">
-              <ResourceCard
-                :resource="item"
-                :inProfile="true"
-                @refresh="getResources"
-                @editResource="editResource"
-              />
-            </v-flex>
-          </v-layout>
-        </v-container>
-        <v-container v-else class="text-center">
-          <h2 class="white--text">No Resources uploaded yet</h2>
-        </v-container>
+      <v-row v-if="resources.length > 0">
+        <v-col v-for="item in resources" :key="item.id" cols="12" sm="6" md="4">
+          <ResourceCard
+            :resource="item"
+            :inProfile="true"
+            @refresh="getResources"
+            @editResource="editResource"
+          />
+        </v-col>
+      </v-row>
+      <v-row v-else>
+        <v-col cols="12" class="text-center">
+          <h2 class="white--text">No Resources Found</h2>
+        </v-col>
       </v-row>
     </v-col>
     <AddBookForm :isEdit="isEdit" :book="book" @edit="bookEditReq" />
