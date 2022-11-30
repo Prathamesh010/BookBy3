@@ -2,7 +2,7 @@
   <v-card class="mx-auto" max-width="344" outlined>
     <v-list-item three-line>
       <v-list-item-content>
-        <div class="text-overline mb-4">skljfk</div>
+        <div class="text-overline mb-4">{{ date }}</div>
         <v-list-item-title class="text-h5 mb-1">{{
           resource.title
         }}</v-list-item-title>
@@ -81,6 +81,12 @@ export default {
   computed: {
     category() {
       return this.resource.category.slice(0, 4);
+    },
+    date() {
+      const date = new Date(this.resource.createdAt);
+      const month = date.toLocaleString('default', { month: 'short' });
+      const year = date.getFullYear();
+      return `${month} ${year}`;
     },
   },
 };

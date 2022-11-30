@@ -5,7 +5,7 @@
     hide-overlay
     transition="dialog-bottom-transition"
   >
-    <v-card>
+    <v-card dark>
       <v-toolbar dark color="red">
         <v-btn icon dark @click="$store.commit('setResDetailsDialog', false)">
           <v-icon>mdi-close</v-icon>
@@ -28,8 +28,8 @@
         </v-chip>
       </v-card-text>
       <v-card-subtitle class="text-h6">
-        <span class="text-h6 black--text"> About: </span>
-        <span class="text-subtitle-5 black--text">
+        <span class="text-h6 white--text"> About: </span>
+        <span class="text-subtitle-5 white--text">
           {{ $store.state.resource.description }}
         </span>
       </v-card-subtitle>
@@ -41,18 +41,36 @@
           :key="link"
           class="px-5"
         >
-          <v-list-item-icon>
-            <v-icon>mdi-link</v-icon>
-          </v-list-item-icon>
-          <v-list-item-content>
-            <v-list-item-title>
-              <a :href="link" target="_blank">{{ link }}</a>
-            </v-list-item-title>
-          </v-list-item-content>
+          <v-card class="my-3 pa-3" width="100%" color="#666666" elevation="4">
+            <v-row align-content="center" class="justify-center">
+              <v-list-item-icon class="mx-3">
+                <v-icon>mdi-link</v-icon>
+              </v-list-item-icon>
+              <v-list-item-content class="mx-3">
+                <v-list-item-title
+                  @click="openLink(link)"
+                  style="cursor: pointer"
+                >
+                  {{ link }}
+                </v-list-item-title>
+              </v-list-item-content>
+            </v-row>
+          </v-card>
         </v-list-item>
       </v-list>
     </v-card>
   </v-dialog>
 </template>
 
-<script></script>
+<script>
+export default {
+  methods: {
+    openLink(url) {
+      if (!url.match(/^https?:\/\//i)) {
+        url = 'http://' + url;
+      }
+      window.open(url, '_blank');
+    },
+  },
+};
+</script>
