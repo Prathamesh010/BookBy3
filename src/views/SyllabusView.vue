@@ -25,7 +25,13 @@
       </v-row>
       <v-row v-else>
         <v-col cols="12" class="text-center">
-          <h2 class="white--text">No syllabus Found</h2>
+          <v-progress-circular
+            indeterminate
+            color="red"
+            class="mt-5"
+            v-if="$store.state.loading"
+          ></v-progress-circular>
+          <h2 v-else class="white--text">No syllabus Found</h2>
         </v-col>
       </v-row>
     </v-container>
@@ -51,12 +57,15 @@ export default {
   },
   methods: {
     getSyllabus() {
+      this.$store.commit('loading', true);
       axiosInstance
         .get('/syllabus')
         .then((response) => {
+          this.$store.commit('loading', false);
           this.syllabuss = response.data;
         })
         .catch((error) => {
+          this.$store.commit('loading', false);
           console.log(error);
         });
     },

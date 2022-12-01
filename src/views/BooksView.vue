@@ -18,7 +18,15 @@
           </v-flex>
         </v-layout>
       </v-container>
-      <div v-else class="book__empty">No books available</div>
+      <div v-else class="book__empty">
+        <v-progress-circular
+          indeterminate
+          color="red"
+          class="mt-5"
+          v-if="$store.state.loading"
+        ></v-progress-circular>
+        <span v-else>No books available</span>
+      </div>
     </div>
     <AddBookForm v-if="$store.state.formDialog" @addBook="addBook" />
   </div>
@@ -41,12 +49,15 @@ export default {
   },
   methods: {
     async fetchBooks() {
+      this.$store.commit('loading', true);
       axiosInstance
         .get('/books')
         .then((response) => {
+          this.$store.commit('loading', false);
           this.books = response.data;
         })
         .catch((error) => {
+          this.$store.commit('loading', false);
           console.log(error);
         });
     },
