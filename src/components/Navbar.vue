@@ -3,8 +3,8 @@
     <v-navigation-drawer v-model="drawer" app temporary dark>
       <v-list>
         <v-list-item>
-          <v-list-item-avatar>
-            <Avatar v-if="$store.state.isLoggedIn" />
+          <v-list-item-avatar v-if="$store.state.isLoggedIn">
+            <Avatar />
           </v-list-item-avatar>
           <v-list-item-content>
             <v-list-item-title class="title">Book By 3</v-list-item-title>
@@ -46,10 +46,10 @@
             <v-list-item-title class="subtitile-1">Syllabus</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
+        <v-divider />
         <v-list-item
           link
           @click="$router.push('/login')"
-          class="mt-4"
           v-if="!$store.state.isLoggedIn"
         >
           <v-list-item-icon class="justify-center">
@@ -119,22 +119,19 @@
         <!-- avatar -->
         <v-btn
           v-if="!$store.state.isLoggedIn"
-          rounded
           outlined
-          text
-          @click="$router.push('/login')"
+          style="border: 1px solid white"
+          @click="$router.push('/register')"
         >
-          <span class="mr-2 white--text">LogIn</span>
+          <span class="white--text">Register</span>
         </v-btn>
         <v-btn
           v-if="!$store.state.isLoggedIn"
-          rounded
-          outlined
-          text
-          @click="$router.push('/register')"
+          color="red"
           class="ml-2"
+          @click="$router.push('/login')"
         >
-          <span class="mr-2 white--text">Register</span>
+          <span class="white--text">LogIn</span>
         </v-btn>
         <Avatar v-if="$store.state.isLoggedIn" />
       </div>
@@ -158,7 +155,8 @@ export default {
     },
     logout() {
       this.$store.dispatch('logout');
-      this.$router.push('/');
+      if (this.$route.path !== '/') this.$router.push('/');
+      this.drawer = false;
     },
   },
   watch: {

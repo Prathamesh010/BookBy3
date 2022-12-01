@@ -1,5 +1,4 @@
 import axiosInstance from '@/apiClient'
-import axios from 'axios'
 
 export default {
     state: {
@@ -30,7 +29,7 @@ export default {
     actions: {
         login({ commit }, payload) {
             commit('loading', true)
-            return new Promise((resolve, reject) => {
+            return new Promise((resolve) => {
                 axiosInstance.post('/auth/login', payload)
                     .then(response => {
                         commit('loading', false)
@@ -46,13 +45,12 @@ export default {
                             commit('flashError', error.response.data.message)
                         else
                             commit('flashError', 'Something went wrong!')
-                        reject(error)
                     })
             })
         },
         register({ commit }, payload) {
             commit('loading', true)
-            return new Promise((resolve, reject) => {
+            return new Promise((resolve) => {
                 axiosInstance.post(`/auth/register`, payload)
                     .then(response => {
                         commit('loading', false)
@@ -68,25 +66,17 @@ export default {
                             commit('flashError', error.response.data.message)
                         else
                             commit('flashError', 'Something went wrong!')
-                        reject(error)
                     })
             })
         },
         logout({ commit }) {
             commit('logout')
             commit('setLoggedIn', { isLoggedIn: false })
+            commit('flashSuccess', 'Logged out successfully!')
         },
-        refreshToken() {
-            return new Promise((resolve, reject) => {
-                axios.post('/auth/refresh-token', {
-                    refreshToken: localStorage.getItem('user-refresh-token').split(' ')[1]
-                })
-                    .then(response => {
-                        resolve(response)
-                    }).catch(error => {
-                        reject(error)
-                    })
-            })
-        }
+        refreshTokens({ commit }, payload) {
+            commit('setToken', { token: payload.token });
+            commit('setRefreshToken', { refreshToken: payload.refreshToken });
+        },
     }
 }

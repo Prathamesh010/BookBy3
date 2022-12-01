@@ -3,13 +3,13 @@
     <div class="book">
       <div class="book__header">
         <h1 class="book__title">Available Books</h1>
-        <button
+        <v-btn
           v-if="this.$store.state.isLoggedIn"
           class="book__button"
           @click="$store.commit('setFormDialog', true)"
         >
-          Add Book
-        </button>
+          Add
+        </v-btn>
       </div>
       <v-container v-if="books.length > 0">
         <v-layout row wrap>

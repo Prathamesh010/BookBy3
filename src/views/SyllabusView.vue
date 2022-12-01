@@ -8,6 +8,7 @@
           color="#fff"
           class="black--text"
           @click="() => $store.commit('setSyllabusDialog', true)"
+          v-if="$store.state.isLoggedIn"
           >Add</v-btn
         >
       </v-row>

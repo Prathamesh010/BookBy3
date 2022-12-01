@@ -1,5 +1,5 @@
 <template>
-  <v-card flat class="book__card text-center ma-3">
+  <v-card text class="book__card text-center ma-3">
     <v-responsive :aspect-ratio="1.5">
       <v-img
         :src="book.image"
@@ -33,7 +33,7 @@
     </v-card-actions>
 
     <v-card-actions v-if="!inProfile" class="justify-center pb-4 pt-0">
-      <v-btn color="red" block class="mt-2" flat>
+      <v-btn color="red" block class="mt-2">
         <v-icon class="mr-3">mdi-phone</v-icon>
         {{ book.contact }}
       </v-btn>

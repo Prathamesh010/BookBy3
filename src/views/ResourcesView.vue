@@ -7,6 +7,7 @@
           color="#fff"
           class="black--text"
           @click="() => $store.commit('setResDialog', true)"
+          v-if="$store.state.isLoggedIn"
           >Add</v-btn
         >
       </v-row>
