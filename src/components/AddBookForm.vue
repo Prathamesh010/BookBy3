@@ -58,7 +58,7 @@
             outlined
             dense
             placeholder="Phone number/email/Instagram/Whatsapp"
-            :rules="rules"
+            :rules="phoneRules"
             type="number"
           />
           <!-- allow images only -->
@@ -115,6 +115,10 @@ export default {
     return {
       image: null,
       rules: [(v) => !!v || 'Field is required'],
+      phoneRules: [
+        (v) => !!v || 'Phone number is required',
+        (v) => v.length >= 10 || 'Phone number must be at least 10 digits',
+      ],
       title: '',
       author: '',
       description: '',

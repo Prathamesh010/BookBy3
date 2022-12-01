@@ -14,7 +14,7 @@
           <v-avatar color="brown">
             <span class="white--text text-h5">{{ initials }}</span>
           </v-avatar>
-          <h3>{{ user.username }}</h3>
+          <h3 class="mt-3">{{ user.username }}</h3>
           <p class="text-caption mt-1">
             {{ user.email }}
           </p>

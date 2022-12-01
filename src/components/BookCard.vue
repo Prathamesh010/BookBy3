@@ -17,7 +17,7 @@
       <v-chip
         v-for="category in categories"
         :key="category"
-        class="mx-3"
+        class="ml-4"
         color="red lighten-4"
         text-color="grey darken-4"
         small

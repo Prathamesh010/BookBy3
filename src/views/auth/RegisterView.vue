@@ -12,27 +12,51 @@
     <div class="register__right">
       <!-- error -->
       <h1 class="register__right__title">Sign Up</h1>
-      <form class="register__right__form" @click.prevent>
-        <div class="register__right__form__group">
-          <label for="username">Username</label>
-          <input type="text" id="username" v-model="username" />
-        </div>
-        <div class="register__right__form__group">
-          <label for="email">Email</label>
-          <input type="email" id="email" v-model="email" />
-        </div>
-        <div class="register__right__form__group">
-          <label for="password">Password</label>
-          <input type="password" id="password" v-model="password" />
-        </div>
-        <div class="register__right__form__group">
-          <label for="password2">Confirm Password</label>
-          <input type="password" id="password2" v-model="password2" />
-        </div>
-        <button class="register__right__form__button" @click="register">
-          Sign Up
-        </button>
-      </form>
+      <v-form @click.prevent style="width: 100%" class="px-12 my-4" ref="form">
+        <v-text-field
+          v-model="username"
+          label="Username"
+          outlined
+          dense
+          :rules="required"
+          color="black"
+        />
+        <v-text-field
+          v-model="email"
+          label="Email"
+          outlined
+          dense
+          :rules="emailRules.concat(required)"
+          color="black"
+        />
+        <v-text-field
+          v-model="password"
+          label="Password"
+          type="password"
+          outlined
+          dense
+          :rules="required"
+          color="black"
+        />
+        <v-text-field
+          v-model="password2"
+          type="password"
+          label="Confirm Password"
+          outlined
+          dense
+          :rules="required.concat(passwordConfirmationRule)"
+          color="black"
+        />
+        <v-btn color="red" @click="register">
+          <v-progress-circular
+            indeterminate
+            color="white"
+            size="20"
+            v-if="$store.state.loading"
+          ></v-progress-circular>
+          <span v-else>Register</span>
+        </v-btn>
+      </v-form>
       <p class="register__right__text">
         Already have an account? <a href="/login">Sign In</a>
       </p>
@@ -49,10 +73,23 @@ export default {
       password: '',
       password2: '',
       error: '',
+      emailRules: [
+        (v) =>
+          !v ||
+          /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) ||
+          'E-mail must be valid',
+      ],
+      required: [(v) => !!v || 'Field is required'],
     };
+  },
+  computed: {
+    passwordConfirmationRule() {
+      return () => this.password === this.password2 || 'Password must match';
+    },
   },
   methods: {
     register() {
+      if (!this.$refs.form.validate()) return;
       const valid = this.validate();
       if (!valid) {
         this.$store.commit('flashError', this.error);
