@@ -33,15 +33,32 @@
     </v-card-actions>
 
     <v-card-actions v-if="!inProfile" class="justify-center pb-4 pt-0">
-      <v-btn color="red" block class="mt-2">
-        <v-icon class="mr-3">mdi-phone</v-icon>
-        {{ book.contact }}
+      <v-btn
+        color="red"
+        block
+        class="mt-2"
+        @click="openChat"
+        :disabled="$store.state.auth.userId === book.user"
+      >
+        <v-icon class="mr-2" color="white">mdi-chat</v-icon>
+        Chat
       </v-btn>
     </v-card-actions>
     <!-- edit and delete button-->
     <v-card-actions v-if="inProfile" class="justify-space-around">
-      <v-btn color="blue" @click="$emit('editBook', book)">Edit</v-btn>
-      <v-btn color="red" @click="deleteBook"> Delete </v-btn>
+      <v-btn color="blue" class="white--text" @click="$emit('editBook', book)"
+        >Edit</v-btn
+      >
+      <v-btn color="red" @click="deleteBook" class="white--text">
+        Delete
+      </v-btn>
+      <v-btn
+        color="green"
+        class="white--text"
+        @click="$router.push(`/chat/${book._id}`)"
+      >
+        Chats
+      </v-btn>
     </v-card-actions>
   </v-card>
 </template>
@@ -73,6 +90,14 @@ export default {
           console.log(error);
           this.$store.commit('flashError', 'Something went wrong');
         });
+    },
+    openChat() {
+      if (!this.$store.state.isLoggedIn) {
+        this.$store.commit('flashError', 'Please Login to continue');
+        this.$router.push('/login');
+        return;
+      }
+      this.$store.dispatch('openChat', this.book);
     },
   },
   computed: {

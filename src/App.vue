@@ -27,5 +27,19 @@ export default {
   padding: 0;
   box-sizing: border-box;
   font-family: 'Poppins', sans-serif;
+  scroll-behavior: smooth;
+}
+
+// custom scrollbar color
+::-webkit-scrollbar {
+  width: 0.5rem;
+}
+
+::-webkit-scrollbar-track-piece {
+  background-color: black;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgb(214, 50, 50);
 }
 </style>

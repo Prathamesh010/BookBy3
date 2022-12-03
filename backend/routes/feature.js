@@ -1,5 +1,5 @@
 const isAuth = require('../middlewares/isAuth');
-const { getBook, getBooks, createBook, deleteBook, updateBook, myBooks } = require('../controllers/books');
+const { getBook, getBooks, createBook, deleteBook, updateBook, myBooks, getChatByBook, addMessage, createChat, getOrCreateChat, getChatById } = require('../controllers/books');
 const { getSyllabus, createSyllabus, updateSyllabus, deleteSyllabus, mySyllabus } = require('../controllers/syllabus');
 const { getResources, myResources, createResource, updateResource, deleteResource } = require('../controllers/resources');
 
@@ -11,6 +11,12 @@ router.get('/books/:id', getBook);
 router.post('/books', isAuth, createBook);
 router.put('/books/:id', isAuth, updateBook);
 router.delete('/books/:id', isAuth, deleteBook);
+
+
+router.post('/chat/getOrCreateChat', isAuth, getOrCreateChat);
+router.get('/chat/book/:id', isAuth, getChatByBook);
+router.get('/chat/:id', isAuth, getChatById);
+router.post('/chat/:id', isAuth, addMessage);
 
 router.get('/syllabus', getSyllabus);
 router.get('/syllabus/me', isAuth, mySyllabus);

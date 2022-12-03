@@ -4,7 +4,7 @@ export default {
     state: {
         token: localStorage.getItem('token') || '',
         refreshToken: localStorage.getItem('refresh-token') || '',
-        user: {}
+        userId: localStorage.getItem('user-id') || '',
     },
     mutations: {
         setToken(state, payload) {
@@ -12,7 +12,8 @@ export default {
             localStorage.setItem('token', payload.token)
         },
         setUser(state, payload) {
-            state.user = payload.user
+            state.userId = payload.user
+            localStorage.setItem('user-id', payload.user)
         },
         setRefreshToken(state, payload) {
             state.refreshToken = payload.refreshToken
@@ -21,9 +22,10 @@ export default {
         logout(state) {
             state.token = ''
             state.refreshToken = ''
-            state.user = {}
+            state.user = ''
             localStorage.removeItem('token')
             localStorage.removeItem('refresh-token')
+            localStorage.removeItem('user-id')
         }
     },
     actions: {
@@ -35,6 +37,7 @@ export default {
                         commit('loading', false)
                         commit('setToken', { token: response.data.token })
                         commit('setRefreshToken', { refreshToken: response.data.refreshToken })
+                        commit('setUser', { user: response.data.user.id })
                         commit('setLoggedIn', { isLoggedIn: true })
                         commit('flashSuccess', 'Logged in successfully!')
                         resolve()
@@ -55,7 +58,7 @@ export default {
                     .then(response => {
                         commit('loading', false)
                         commit('setToken', { token: response.data.token })
-                        commit('setUser', { user: response.data.user })
+                        commit('setUser', { user: response.data.user.id })
                         commit('setRefreshToken', { refreshToken: response.data.refreshToken })
                         commit('setLoggedIn', { isLoggedIn: true })
                         resolve()

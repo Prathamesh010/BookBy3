@@ -1,4 +1,5 @@
 import auth from './auth.module'
+import chat from './chat.module'
 import Vuex from 'vuex';
 import Vue from 'vue';
 
@@ -60,6 +61,7 @@ export default new Vuex.Store({
         }
     },
     modules: {
-        auth
+        auth,
+        chat
     }
 })
