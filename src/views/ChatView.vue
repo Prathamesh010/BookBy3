@@ -19,7 +19,7 @@
               </v-list-item-icon>
               <v-list-item-content class="mx-3">
                 <v-list-item-title>
-                  {{ chat.messages[0].by.username }}
+                  {{ chat.users[0].username }}
                 </v-list-item-title>
               </v-list-item-content>
             </v-row>
